@@ -5,7 +5,7 @@
         </x-slot>
 
         <x-validation-errors class="mb-4" />
-
+        @if (false == true)
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
@@ -28,7 +28,11 @@
                 <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
-
+            @else
+            <div class="m-2">
+                <p>Register is disabled for this application</p>
+            </div>
+            @endif
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-label for="terms">
@@ -45,7 +49,7 @@
                     </x-label>
                 </div>
             @endif
-
+            @if (false == true)
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
@@ -55,6 +59,13 @@
                     {{ __('Register') }}
                 </x-button>
             </div>
+            @else
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('start') }}">
+                    {{ __('Understood') }}
+                </a>
+            </div>
+            @endif
         </form>
     </x-authentication-card>
 </x-guest-layout>
