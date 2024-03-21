@@ -13,7 +13,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <table class="w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
-                        <tr>
+                        <tr class="select-none">
                             <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Name</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Authors</th>
@@ -23,11 +23,11 @@
                     <tbody class="divide-y divide-gray-200">
                         @foreach ($projects as $project)
                             <tr class="hover:bg-gray-100 transition duration-300">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $project->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 select-all	">{{ $project->name }} <span class="px-2 ml-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-200 border-2 select-none border-stone-300 text-gray-700">{{ $project->version }}</span></td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{{ $project->status }}</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 border-dashed border-2 select-none @if ($project->status === 'active') border-green-200 @elseif ($project->status === 'inactive') border-red-200 @elseif ($project->status === 'archived') border-yellow-300 @elseif ($project->status === 'soon') border-orange-300 @endif">@if ($project->status === 'active') ⭐ Active @elseif ($project->status === 'inactive') 💀 Inactive @elseif ($project->status === 'archived') 📦 Archived @elseif ($project->status === 'soon') 👀 Soon @endif</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ implode(', ', $project->authors) }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 select-all	">{{ implode(', ', $project->authors) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
                                         <livewire:view-project-button :project="$project" />

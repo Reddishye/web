@@ -31,6 +31,7 @@ class ProjectController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
+            'version' => 'required',
             'description' => 'required',
             'status' => 'required',
             'authors' => 'required',
@@ -49,7 +50,7 @@ class ProjectController extends Controller
      */
     public function show(Projects $project)
     {
-        return view('projects.show', compact('project'));
+        return view('admin.projects.show', compact('project'));
     }
 
     /**
@@ -57,7 +58,7 @@ class ProjectController extends Controller
      */
     public function edit(Projects $project)
     {
-        return view('projects.edit', compact('project'));
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -67,6 +68,7 @@ class ProjectController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
+            'version' => 'required',
             'description' => 'required',
             'status' => 'required',
             'authors' => 'required',

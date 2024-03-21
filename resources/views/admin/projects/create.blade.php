@@ -19,6 +19,13 @@
                             @enderror
                         </div>
                         <div class="mb-4">
+                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Version</label>
+                            <input type="text" name="version" id="version" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('version') border-red-500 @enderror" value="{{ old('version') }}" required autofocus>
+                            @error('version')
+                                <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="mb-4">
                             <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
                             <textarea name="description" id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('description') border-red-500 @enderror" required>{{ old('description') }}</textarea>
                             @error('description')
@@ -28,8 +35,10 @@
                         <div class="mb-4">
                             <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status</label>
                             <select name="status" id="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('status') border-red-500 @enderror" required>
-                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>⭐ Active</option>
+                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>💀 Inactive</option>
+                                <option value="archived" {{ old('status') == 'archived' ? 'selected' : '' }}>📦 Archived</option>
+                                <option value="soon" {{ old('status') == 'inactive' ? 'selected' : '' }}>👀 Soon</option>
                             </select>
                             @error('status')
                                 <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>

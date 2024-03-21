@@ -7,6 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('start');
 
+Route::redirect('/dashboard', '/admin/dashboard');
+
 Route::prefix('admin')->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
