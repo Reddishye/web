@@ -41,7 +41,7 @@ class ProjectController extends Controller
 
         $project = Projects::create($validatedData);
 
-        return redirect()->route('admin.projects.index')->with('success', 'Project created successfully');
+        return redirect()->route('projects.index')->with('success', 'Project created successfully');
     }
 
     /**
@@ -49,7 +49,7 @@ class ProjectController extends Controller
      */
     public function show(Projects $project)
     {
-        return view('admin.projects.show', compact('project'));
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -57,7 +57,7 @@ class ProjectController extends Controller
      */
     public function edit(Projects $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -77,7 +77,7 @@ class ProjectController extends Controller
 
         $project->update($validatedData);
 
-        return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully');
+        return redirect()->route('projects.index')->with('success', 'Project updated successfully');
     }
 
     /**
@@ -87,6 +87,6 @@ class ProjectController extends Controller
     {
         $project->delete();
 
-        return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully');
+        return redirect()->route('projects.index')->with('success', 'Project deleted successfully');
     }
 }
