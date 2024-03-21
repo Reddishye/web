@@ -15,6 +15,9 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         <i class="fas fa-home mr-3"></i>{{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.index')">
+                        <i class="fas fa-project-diagram mr-3"></i>{{ __('Projects') }}
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('start');
 
-Route::middleware([
+Route::prefix('admin')->middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
