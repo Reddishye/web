@@ -24,7 +24,7 @@ class DeleteProjectButton extends Component
     {
         $this->project->delete();
         $this->confirmingProjectDeletion = false;
-        $this->emit('projectDeleted');
+        return redirect()->route('projects.index');
     }
 
     public function render()
