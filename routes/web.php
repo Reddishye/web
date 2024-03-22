@@ -2,10 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserViewController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('start');
+Route::resource('/', UserViewController::class);
 
 Route::redirect('/dashboard', '/admin/dashboard');
 
