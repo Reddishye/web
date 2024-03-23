@@ -27,7 +27,7 @@
     <div class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                <h1 class="ml-4 text-6xl font-bold">⭐ Hugo Torres</h1>
+                <h1 class="ml-4 lg:text-6xl text-5xl font-bold">Hugo Torres</h1>
             </div>
 
             <div class="mt-8 bg-gray-800 overflow-hidden shadow sm:rounded-lg">
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="mt-2 ml-6 text-gray-400 text-sm group-hover:text-gray-300 transition duration-200">
-                            <p>Hugo Torres, with 7+ years in Minecraft development, excels in creating Minecraft plugins, Discord bots, and server configurations. His expertise ensures unique, tailored solutions that enhance gaming and community experiences. Elevate your digital project by leveraging Hugo's skills for unmatched innovation and satisfaction. Contact Hugo today to transform your Minecraft or Discord environment.</p>
+                            <p>Hugo Torres, with 5+ years in Minecraft development, excels in creating Minecraft plugins, Discord bots, and server configurations. His expertise ensures unique, tailored solutions that enhance gaming and community experiences. Elevate your digital project by leveraging Hugo's skills for unmatched innovation and satisfaction. Contact Hugo today to transform your Minecraft or Discord environment.</p>
                         </div>
                     </div>
 
