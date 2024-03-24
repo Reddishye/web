@@ -4,10 +4,10 @@ namespace App\Livewire;
 
 use Livewire\Component;
 
-class ThemeSwitcher extends Component
+class Back extends Component
 {
     public function render()
     {
-        return view('livewire.theme-switcher');
+        return view('livewire.back');
     }
 }

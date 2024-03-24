@@ -18,7 +18,7 @@
         @livewireStyles
         @filamentStyles
     </head>
-    <body class="dark:bg-gray-700">
+    <body x-data="themeSwitcher()" :class="{ 'dark': switchOn }">
         <div class="font-sans text-gray-900 dark:text-white antialiased">
             {{ $slot }}
         </div>

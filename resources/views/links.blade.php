@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="bg-gray-700 min-h-screen">
+    <div class="bg-slate-200 dark:bg-slate-700 min-h-screen">
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 @php
@@ -18,7 +18,7 @@
                             @if ($group === '')
                                 @foreach ($groupLinks as $link)
                                     <a href="{{ $link->link }}" class="md:rounded-lg">
-                                        <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:border-2 hover:border-indigo-600 dark:hover:border-indigo-400 hover:border-dashed" style="box-sizing: border-box;">
+                                        <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:bg-gray-200 dark:hover:bg-slate-700" style="box-sizing: border-box;">
                                             <div class="flex items-center space-x-4">
                                                 <div class="flex-shrink-0">
                                                     <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
@@ -37,7 +37,7 @@
                                 @endforeach
                             @else
                                 <div x-data="{ open: false }" class="mb-5">
-                                    <button @click="open = !open" class="w-full text-left cursor-pointer bg-gray-300 dark:bg-gray-600 p-4 md:rounded-lg shadow transition-all duration-300" :class="{ 'rounded-b-none': open }">
+                                    <button @click="open = !open" class="w-full text-left cursor-pointer bg-gray-300 dark:bg-gray-800 p-4 md:rounded-t-lg shadow transition-all duration-300" :class="{'md:rounded-b-lg': !open}">
                                         <div class="flex justify-between items-center">
                                             <span class="font-medium text-gray-900 dark:text-white">{{ ucfirst($group) }}</span>
                                             <svg :class="{ 'rotate-180': open, 'rotate-0': !open }" class="h-5 w-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -45,11 +45,11 @@
                                             </svg>
                                         </div>
                                     </button>
-                                    <div x-show="open" x-collapse.duration.500ms x-collapse.group class="bg-white dark:bg-gray-800 md:rounded-b-lg shadow-inner">
+                                    <div x-show="open" x-collapse.duration.500ms x-collapse.group class="bg-white dark:bg-gray-500 md:rounded-b-lg shadow-inner">
                                         <div class="p-4 space-y-4">
                                             @foreach ($groupLinks as $link)
                                                 <a href="{{ $link->link }}" class="md:rounded-lg">
-                                                    <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:border-2 hover:border-indigo-600 dark:hover:border-indigo-400 hover:border-dashed" style="box-sizing: border-box;">
+                                                    <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:bg-gray-200 dark:hover:bg-slate-700" style="box-sizing: border-box;">
                                                         <div class="flex items-center space-x-4">
                                                             <div class="flex-shrink-0">
                                                                 <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
@@ -81,7 +81,7 @@
                                 @foreach ($groupLinks as $link)
                                     <a href="{{ $link->link }}" class="md:rounded-lg">
                                         <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5" style="box-sizing: border-box;">
-                                            <div class="flex items-center space-x-4 transition duration-200 ease-in-out transform hover:bg-indigo-600 dark:hover:bg-indigo-400">
+                                            <div class="flex items-center space-x-4">
                                                 <div class="flex-shrink-0">
                                                     <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
                                                 </div>
@@ -99,7 +99,7 @@
                                 @endforeach
                             @else
                                 <div x-data="{ open: false }" class="mb-5">
-                                    <button @click="open = !open" class="w-full text-left cursor-pointer bg-gray-300 dark:bg-gray-600 p-4 md:rounded-lg shadow transition-all duration-300" :class="{ 'rounded-b-none': open }">
+                                    <button @click="open = !open" class="w-full text-left cursor-pointer bg-gray-300 dark:bg-gray-800 p-4 md:rounded-t-lg shadow transition-all duration-300" :class="{'md:rounded-b-lg': !open}">
                                         <div class="flex justify-between items-center">
                                             <span class="font-medium text-gray-900 dark:text-white">{{ ucfirst($group) }}</span>
                                             <svg :class="{ 'rotate-180': open, 'rotate-0': !open }" class="h-5 w-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -107,12 +107,12 @@
                                             </svg>
                                         </div>
                                     </button>
-                                    <div x-show="open" x-collapse.duration.500ms x-collapse.group class="bg-white dark:bg-gray-800 md:rounded-b-lg shadow-inner">
+                                    <div x-show="open" x-collapse.duration.500ms x-collapse.group class="bg-gray-400 dark:bg-gray-700 md:rounded-b-lg shadow-inner">
                                         <div class="p-4 space-y-4">
                                             @foreach ($groupLinks as $link)
                                                 <a href="{{ $link->link }}" class="md:rounded-lg">
-                                                    <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5" style="box-sizing: border-box;">
-                                                        <div class="flex items-center space-x-4 transition duration-200 ease-in-out transform hover:bg-indigo-600 dark:hover:bg-indigo-400">
+                                                    <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:bg-gray-200 dark:hover:bg-slate-700" style="box-sizing: border-box;">
+                                                        <div class="flex items-center space-x-4">
                                                             <div class="flex-shrink-0">
                                                                 <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
                                                             </div>
@@ -137,5 +137,6 @@
                 </div>
             </div>
         </div>
+        @livewire('theme-switcher')
     </div>
 </x-guest-layout>
