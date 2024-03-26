@@ -1,142 +1,85 @@
 <x-guest-layout>
-    <div class="bg-slate-200 dark:bg-slate-700 min-h-screen">
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                @php
-                    $groupedLinks = $links
-                        ->where('enabled', true)
-                        ->sortBy('path')
-                        ->groupBy(function ($item) {
-                            $pathParts = explode('/', $item['path']);
-                            return count($pathParts) > 1 ? $pathParts[0] : '';
-                        });
-                @endphp
+    <div class="min-h-screen bg-gray-900 flex flex-col justify-center items-center">
+        <h1 class="text-8xl font-extrabold text-white mb-20" style="font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+            Hugo Torres
+        </h1>
+        <div class="max-w-lg mx-auto w-full">
+            @if ($isSection)
+                <div class="mb-8">
+                    <h2 class="text-3xl font-semibold text-white mb-4">{{ ucfirst($currentCategory['case']) }}</h2>
+                    @if ($parentCategory)
+                        <a href="{{ $parentCategory['url'] }}" class="text-gray-400 hover:text-white mb-4 block transition duration-200 ease-in-out">
+                            <i class="fas fa-arrow-left mr-2"></i> Back to {{ ucfirst($parentCategory['path']) }}
+                        </a>
+                    @endif
+                </div>
+            @endif
 
-                <div class="lg:col-span-1">
-                    @foreach ($groupedLinks as $group => $groupLinks)
-                        @if ($loop->odd)
-                            @if ($group === '')
-                                @foreach ($groupLinks as $link)
-                                    <a href="{{ $link->link }}" class="md:rounded-lg">
-                                        <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:bg-gray-200 dark:hover:bg-slate-700" style="box-sizing: border-box;">
-                                            <div class="flex items-center space-x-4">
-                                                <div class="flex-shrink-0">
-                                                    <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                                                        {{ $link->name }}
-                                                    </p>
-                                                    <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                                                        {{ $link->link }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                @endforeach
-                            @else
-                                <div x-data="{ open: false }" class="mb-5">
-                                    <button @click="open = !open" class="w-full text-left cursor-pointer bg-gray-300 dark:bg-gray-800 p-4 md:rounded-t-lg shadow transition-all duration-300" :class="{'md:rounded-b-lg': !open}">
-                                        <div class="flex justify-between items-center">
-                                            <span class="font-medium text-gray-900 dark:text-white">{{ ucfirst($group) }}</span>
-                                            <svg :class="{ 'rotate-180': open, 'rotate-0': !open }" class="h-5 w-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                    <div x-show="open" x-collapse.duration.500ms x-collapse.group class="bg-white dark:bg-gray-500 md:rounded-b-lg shadow-inner">
-                                        <div class="p-4 space-y-4">
-                                            @foreach ($groupLinks as $link)
-                                                <a href="{{ $link->link }}" class="md:rounded-lg">
-                                                    <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:bg-gray-200 dark:hover:bg-slate-700" style="box-sizing: border-box;">
-                                                        <div class="flex items-center space-x-4">
-                                                            <div class="flex-shrink-0">
-                                                                <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
-                                                            </div>
-                                                            <div class="flex-1 min-w-0">
-                                                                <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                                                                    {{ $link->name }}
-                                                                </p>
-                                                                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                                                                    {{ $link->link }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            @endforeach
-                                        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                @foreach ($links as $link)
+                    @if (!$isSection || !str_contains($link->path, '/'))
+                        @php
+                            $linkUrl = $link->link;
+                            $linkTarget = '_self';
+                            $linkOnClick = null;
+                            $linkText = $link->link;
+
+                            if (Str::startsWith($link->link, 'copy:')) {
+                                $textToCopy = substr($link->link, 5);
+                                $linkUrl = '#';
+                                $linkOnClick = "copyToClipboard(event, '$textToCopy')";
+                                $linkText = $textToCopy;
+                            } elseif (Str::startsWith($link->link, 'newwindow:')) {
+                                $linkUrl = substr($link->link, 10);
+                                $linkTarget = '_blank';
+                                $linkText = $linkUrl;
+                            } elseif (Str::startsWith($link->link, 'route:')) {
+                                $routeName = substr($link->link, 6);
+                                $linkUrl = route($routeName);
+                                $linkText = $routeName;
+                            } elseif ($link->link === 'onlyview') {
+                                $linkUrl = '#';
+                                $linkOnClick = 'return false;';
+                                $linkText = 'View Only';
+                            }
+                        @endphp
+
+                        <div class="bg-gray-800 rounded-lg shadow-md transition duration-200 ease-in-out hover:bg-gray-700 hover:shadow-lg">
+                            <a href="{{ $linkUrl }}" target="{{ $linkTarget }}" onclick="{{ $linkOnClick }}" class="block p-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="{{ $link->fa_icon }} text-3xl" style="color: {{ $link->color }};"></i>
+                                    </div>
+                                    <div class="flex-grow">
+                                        <p class="text-xl font-semibold text-white truncate">
+                                            {{ $link->name }}
+                                        </p>
+                                        <p class="text-sm text-gray-400 truncate">
+                                            {{ Str::limit($linkText, 20, '...') }}
+                                        </p>
                                     </div>
                                 </div>
-                            @endif
-                        @endif
-                    @endforeach
-                </div>
-
-                <div class="lg:col-span-1">
-                    @foreach ($groupedLinks as $group => $groupLinks)
-                        @if ($loop->even)
-                            @if ($group === '')
-                                @foreach ($groupLinks as $link)
-                                    <a href="{{ $link->link }}" class="md:rounded-lg">
-                                        <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5" style="box-sizing: border-box;">
-                                            <div class="flex items-center space-x-4">
-                                                <div class="flex-shrink-0">
-                                                    <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
-                                                </div>
-                                                <div class="flex-1 min-w-0">
-                                                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                                                        {{ $link->name }}
-                                                    </p>
-                                                    <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                                                        {{ $link->link }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                @endforeach
-                            @else
-                                <div x-data="{ open: false }" class="mb-5">
-                                    <button @click="open = !open" class="w-full text-left cursor-pointer bg-gray-300 dark:bg-gray-800 p-4 md:rounded-t-lg shadow transition-all duration-300" :class="{'md:rounded-b-lg': !open}">
-                                        <div class="flex justify-between items-center">
-                                            <span class="font-medium text-gray-900 dark:text-white">{{ ucfirst($group) }}</span>
-                                            <svg :class="{ 'rotate-180': open, 'rotate-0': !open }" class="h-5 w-5 transform transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                            </svg>
-                                        </div>
-                                    </button>
-                                    <div x-show="open" x-collapse.duration.500ms x-collapse.group class="bg-gray-400 dark:bg-gray-700 md:rounded-b-lg shadow-inner">
-                                        <div class="p-4 space-y-4">
-                                            @foreach ($groupLinks as $link)
-                                                <a href="{{ $link->link }}" class="md:rounded-lg">
-                                                    <div class="bg-white dark:bg-gray-800 p-4 md:rounded-lg shadow mb-5 transition duration-200 ease-in-out transform hover:bg-gray-200 dark:hover:bg-slate-700" style="box-sizing: border-box;">
-                                                        <div class="flex items-center space-x-4">
-                                                            <div class="flex-shrink-0">
-                                                                <i class="{{ $link->fa_icon }}" style="color: {{ $link->color }};"></i>
-                                                            </div>
-                                                            <div class="flex-1 min-w-0">
-                                                                <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                                                                    {{ $link->name }}
-                                                                </p>
-                                                                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                                                                    {{ $link->link }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            @endforeach
-                                        </div>
+                            </a>
+                        </div>
+                    @elseif ($isSection && str_contains($link->path, '/'))
+                        <div class="bg-gray-800 rounded-lg shadow-md transition duration-200 ease-in-out hover:bg-gray-700 hover:shadow-lg">
+                            <a href="{{ url()->current() . '?category=' . urlencode(explode('/', $link->path)[0]) }}" class="block p-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-folder text-3xl text-gray-500"></i>
+                                    </div>
+                                    <div class="flex-grow">
+                                        <p class="text-xl font-semibold text-white truncate">
+                                            {{ ucfirst(explode('/', $link->path)[0]) }}
+                                        </p>
                                     </div>
                                 </div>
-                            @endif
-                        @endif
-                    @endforeach
-                </div>
+                            </a>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
-        @livewire('theme-switcher')
     </div>
+    @livewire('theme-switcher')
 </x-guest-layout>

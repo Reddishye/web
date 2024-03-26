@@ -33,7 +33,7 @@ class LinksManager extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'path' => 'required|string',
-            'link' => 'required|url',
+            'link' => 'required|string',
             'fa_icon' => 'required|string',
             'enabled' => 'boolean',
             'color' => 'required|string',
@@ -42,7 +42,6 @@ class LinksManager extends Controller
         $link = Link::create($validatedData);
         return redirect()->route('links.index')->with('success', 'Link created successfully.');
     }
-
 
     /**
      * Display the specified resource.
@@ -69,7 +68,7 @@ class LinksManager extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'path' => 'required|string',
-            'link' => 'required|url',
+            'link' => 'required|string',
             'fa_icon' => 'required|string',
             'enabled' => 'boolean',
             'color' => 'required|string',

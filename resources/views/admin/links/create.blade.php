@@ -28,6 +28,13 @@
                         <div class="mb-4">
                             <label for="link" class="block text-gray-700 text-sm font-bold mb-2">URL</label>
                             <textarea name="link" id="link" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('link') border-red-500 @enderror" required>{{ old('link') }}</textarea>
+                            <p class="text-gray-600 text-xs italic mt-2">You can use the following special prefixes:</p>
+                            <ul class="text-gray-600 text-xs italic mt-1 ml-4 list-disc">
+                                <li><code>copy:&lt;text_to_copy&gt;</code> - Copies the specified text to clipboard</li>
+                                <li><code>newwindow:&lt;url&gt;</code> - Opens the specified URL in a new window</li>
+                                <li><code>route:&lt;route_name&gt;</code> - Redirects to the specified route</li>
+                                <li><code>onlyview</code> - Disables the link (for display only)</li>
+                            </ul>
                             @error('link')
                                 <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                             @enderror
@@ -35,12 +42,13 @@
                         <div class="mb-4">
                             <label for="fa_icon" class="block text-gray-700 text-sm font-bold mb-2">Icon</label>
                             <input type="text" name="fa_icon" id="fa_icon" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('fa_icon') border-red-500 @enderror" value="{{ old('fa_icon') }}" required>
-                            <p class="text-gray-600 text-xs italic mt-2">Remember to add fas, fa-brands o whatever before the name of the icon.</p>
+                            <p class="text-gray-600 text-xs italic mt-2">Remember to add fas, fa-brands or whatever before the name of the icon.</p>
                             @error('icon')
                                 <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="mb-4">Color</label>
+                        <div class="mb-4">
+                            <label for="color" class="block text-gray-700 text-sm font-bold mb-2">Color</label>
                             <input type="color" name="color" id="color" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('color') border-red-500 @enderror" value="{{ old('color') }}" required autofocus>
                             @error('color')
                                 <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>

@@ -1,6 +1,17 @@
 import './bootstrap';
 import '@fortawesome/fontawesome-free/js/all';
+import ScrollReveal from 'scrollreveal';
+import 'animate.css';
 
+document.addEventListener('DOMContentLoaded', function () {
+    ScrollReveal().reveal('.aos-init', {
+      duration: 600,
+      distance: '20px',
+      easing: 'ease-in-out',
+      origin: 'bottom',
+      reset: true
+    });
+  });
 window.themeSwitcher = function () {
     return {
         switchOn: JSON.parse(localStorage.getItem('isDark')) || false,
