@@ -30,9 +30,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 select-all	"><span class="inline-block h-4 w-4 rounded-full" style="background-color: {{ $link->color }};"></span></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
-                                        <livewire:view-link-button :link="$link" />
-                                        <livewire:edit-link-button :link="$link" />
-                                        <livewire:delete-link-button :link="$link" />
+                                        <livewire:link.edit :link="$link" />
+                                        <livewire:link.delete :link="$link" />
                                     </div>
                                 </td>
                             </tr>

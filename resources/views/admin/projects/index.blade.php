@@ -30,9 +30,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 select-all	">{{ implode(', ', $project->authors) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
-                                        <livewire:view-project-button :project="$project" />
-                                        <livewire:edit-project-button :project="$project" />
-                                        <livewire:delete-project-button :project="$project" />
+                                        <livewire:project.view :project="$project" />
+                                        <livewire:project.edit :project="$project" />
+                                        <livewire:project.delete :project="$project" />
                                     </div>
                                 </td>
                             </tr>

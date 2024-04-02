@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Project;
 
 use Livewire\Component;
 use App\Models\Projects;
 
-class ViewProjectButton extends Component
+class Edit extends Component
 {
     public $project;
 
@@ -16,6 +16,6 @@ class ViewProjectButton extends Component
 
     public function render()
     {
-        return view('livewire.view-project-button');
+        return view('livewire.project.edit');
     }
 }

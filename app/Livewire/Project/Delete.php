@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Project;
 
 use Livewire\Component;
 use App\Models\Projects;
 
-class DeleteProjectButton extends Component
+class Delete extends Component
 {
     public $project;
     public $confirmingProjectDeletion = false;
@@ -29,6 +29,6 @@ class DeleteProjectButton extends Component
 
     public function render()
     {
-        return view('livewire.delete-project-button');
+        return view('livewire.project.delete');
     }
 }

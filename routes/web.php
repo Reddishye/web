@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserViewController;
@@ -22,4 +23,6 @@ Route::prefix('admin')->middleware([
     Route::resource('projects', ProjectController::class);
 
     Route::resource('links', LinksManager::class);
+
+    Route::resource('users', UserController::class);
 });

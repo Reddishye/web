@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Link;
 
 use Livewire\Component;
 use App\Models\Link;
 
-class DeleteLinkButton extends Component
+class Delete extends Component
 {
     public $link;
     public $confirmingLinkDeletion = false;
@@ -29,6 +29,6 @@ class DeleteLinkButton extends Component
 
     public function render()
     {
-        return view('livewire.delete-link-button');
+        return view('livewire.link.delete');
     }
 }

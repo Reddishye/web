@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94b4ff1ec24f7c0c66f7e64f78df9c0d",
+    "content-hash": "d83629368cde525f48f1dab15783f80e",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7841,6 +7841,68 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.2.7"
             },
             "time": "2023-12-08T13:03:43+00:00"
+        },
+        {
+            "name": "tomsix/laravel-components-library",
+            "version": "v2.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomsix/laravel-components-library.git",
+                "reference": "9f03e8b701da3e9b1f4e41e969b832c5afbfd6f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomsix/laravel-components-library/zipball/9f03e8b701da3e9b1f4e41e969b832c5afbfd6f1",
+                "reference": "9f03e8b701da3e9b1f4e41e969b832c5afbfd6f1",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0|^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5",
+                "spatie/laravel-ray": "^1.25"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TomSix\\Components\\LibraryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TomSix\\Components\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tom Six",
+                    "email": "tom@webatvantage.be",
+                    "homepage": "https://www.webatvantage.be/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A collection of pre-made Blade components for Laravel 7.x and up",
+            "homepage": "https://github.com/tomsix/laravel-blade-components",
+            "keywords": [
+                "blade",
+                "components",
+                "form",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/tomsix/laravel-components-library/issues",
+                "source": "https://github.com/tomsix/laravel-components-library/tree/v2.3.3"
+            },
+            "time": "2024-03-21T16:32:24+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

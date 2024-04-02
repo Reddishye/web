@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Link;
 
 use Livewire\Component;
 use App\Models\Link;
 
-class EditLinkButton extends Component
+class Edit extends Component
 {
     public $link;
 
@@ -16,6 +16,6 @@ class EditLinkButton extends Component
 
     public function render()
     {
-        return view('livewire.edit-link-button');
+        return view('livewire.link.edit');
     }
 }
