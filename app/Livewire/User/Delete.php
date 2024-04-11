@@ -23,6 +23,7 @@ class Delete extends Component
 
     public function deleteUser()
     {
+        $this->user->licenses()->delete();
         $this->user->delete();
         $this->confirmingUserDeletion = false;
 
