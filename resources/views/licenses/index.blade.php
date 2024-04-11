@@ -1,21 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Licenses') }}
-        </h2>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-800 leading-tight">{{ __('Licenses') }}</h2>
+        @if (has_permission('admin'))
+        <a href="{{ route('licenses.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 flex items-center">
+            <i class="fas fa-plus mr-2"></i> Create License
+        </a>
+        @endif
+    </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6">
-                    @if (has_permission('admin'))
-                        <div class="flex justify-end mb-4">
-                            <x-button href="{{ route('licenses.create') }}">
-                                {{ __('Create License') }}
-                            </x-button>
-                        </div>
-                    @endif
 
                     <h3 class="text-lg font-medium mb-4">{{ __('Your Licenses') }}</h3>
 
@@ -41,7 +39,7 @@
                                 @forelse (Auth::user()->licenses as $license)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            {{ $license->license }}
+                                            <a href="{{ route('licenses.show', $license) }}">{{ $license->license }}</a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $license->project }}
@@ -119,7 +117,7 @@
                                     @forelse ($licenses->where('user_id', '!=', Auth::id()) as $license)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {{ $license->license }}
+                                                <a href="{{ route('licenses.show', $license) }}">{{ $license->license }}</a>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $license->project }}
