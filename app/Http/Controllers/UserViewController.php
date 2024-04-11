@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Projects;
-use Illuminate\Http\Request;
 
 class UserViewController extends Controller
 {
@@ -13,6 +12,7 @@ class UserViewController extends Controller
     public function index()
     {
         $projects = Projects::all();
+
         return view('welcome', compact('projects'));
     }
 
