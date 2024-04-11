@@ -13,6 +13,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -36,6 +37,10 @@ class UserController extends Controller
         ]);
 
         $user = User::create($validatedData);
+
+        $permissions = json_decode($request->input('permissions', '[]'), true);
+        $user->permissions = $permissions;
+        $user->save();
 
         return redirect()->route('users.index')->with('success', 'User created successfully');
     }
@@ -68,7 +73,19 @@ class UserController extends Controller
 
         $user->update($validatedData);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        $permissions = json_decode($request->input('permissions', '[]'), true);
+        $user->permissions = $permissions;
+
+        if ($request->has('unlink_discord')) {
+            $user->discord_id = null;
+            $user->discord_username = null;
+            $user->discord_displayname = null;
+            $user->discord_avatar_url = null;
+        }
+
+        $user->save();
+
+        return redirect()->route('users.edit', $user->id)->with('success', 'User updated successfully');
     }
 
     /**
@@ -79,5 +96,18 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
+    }
+
+    /**
+     * Unlink the user's discord from its account.
+     */
+    public function unlinkDiscord(User $user)
+    {
+        $user->discord_id = null;
+        $user->discord_username = null;
+        $user->discord_avatar_url = null;
+        $user->save();
+
+        return redirect()->route('users.edit', $user->id)->with('success', 'Discord account unlinked successfully');
     }
 }
