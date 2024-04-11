@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Link;
 
-use Livewire\Component;
 use App\Models\Link;
+use Livewire\Component;
 
 class Edit extends Component
 {

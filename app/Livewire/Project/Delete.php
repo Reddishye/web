@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Project;
 
-use Livewire\Component;
 use App\Models\Projects;
+use Livewire\Component;
 
 class Delete extends Component
 {
     public $project;
+
     public $confirmingProjectDeletion = false;
 
     public function mount(Projects $project)
@@ -24,6 +25,7 @@ class Delete extends Component
     {
         $this->project->delete();
         $this->confirmingProjectDeletion = false;
+
         return redirect()->route('projects.index');
     }
 

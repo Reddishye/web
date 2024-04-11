@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Link;
 
-use Livewire\Component;
 use App\Models\Link;
+use Livewire\Component;
 
 class Delete extends Component
 {
     public $link;
+
     public $confirmingLinkDeletion = false;
 
     public function mount(Link $link)
@@ -24,6 +25,7 @@ class Delete extends Component
     {
         $this->link->delete();
         $this->confirmingLinkDeletion = false;
+
         return redirect()->route('links.index');
     }
 

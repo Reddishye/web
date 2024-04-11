@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 
-if (!function_exists('has_permission')) {
+if (! function_exists('has_permission')) {
     function has_permission($permission)
     {
         $user = Auth::user();
@@ -15,7 +15,7 @@ if (!function_exists('has_permission')) {
                 // Check permissions with a single asterisk, like 'account.*'
                 $permissionParts = explode('.', $permission);
                 array_pop($permissionParts);
-                $parentPermission = implode('.', $permissionParts) . '.*';
+                $parentPermission = implode('.', $permissionParts).'.*';
                 if (in_array($parentPermission, $permissions)) {
                     return true;
                 }
@@ -33,6 +33,7 @@ if (!function_exists('has_permission')) {
                 }
             }
         }
+
         return false;
     }
 }

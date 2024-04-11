@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Project;
 
-use Livewire\Component;
 use App\Models\Projects;
+use Livewire\Component;
 
 class Edit extends Component
 {

@@ -2,12 +2,13 @@
 
 namespace App\Livewire\User;
 
-use Livewire\Component;
 use App\Models\User;
+use Livewire\Component;
 
 class Delete extends Component
 {
     public $user;
+
     public $confirmingUserDeletion = false;
 
     public function mount(User $user)
@@ -24,7 +25,8 @@ class Delete extends Component
     {
         $this->user->delete();
         $this->confirmingUserDeletion = false;
-        return redirect()->route('user.index');
+
+        return redirect()->route('users.index');
     }
 
     public function render()
