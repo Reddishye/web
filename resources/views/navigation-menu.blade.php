@@ -15,11 +15,22 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         <i class="fas fa-home mr-3"></i>{{ __('Dashboard') }}
                     </x-nav-link>
+                    @if (has_permission('admin'))
+                    <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                        <i class="fas fa-user mr-3"></i>{{ __('Users') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('analytics') }}" :active="request()->routeIs('analytics')">
+                        <i class="fas fa-chart-column mr-3"></i>{{ __('Analytics') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.index')">
                         <i class="fas fa-project-diagram mr-3"></i>{{ __('Projects') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('links.index') }}" :active="request()->routeIs('links.index')">
                         <i class="fa-solid fa-link mr-3"></i>{{ __('Links')}}
+                    </x-nav-link>
+                    @endif
+                    <x-nav-link href="{{ route('licenses.index') }}" :active="request()->routeIs('licenses.index')">
+                        <i class="fa-solid fa-id-card mr-3"></i>{{ __('Licenses')}}
                     </x-nav-link>
                 </div>
             </div>
@@ -91,11 +102,22 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 <i class="fas fa-home mr-3"></i>{{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if (has_permission('admin'))
+            <x-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                <i class="fas fa-user mr-3"></i>{{ __('Users') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('analytics') }}" :active="request()->routeIs('analytics')">
+                <i class="fas fa-chart-column mr-3"></i>{{ __('Analytics') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('projects.index') }}" :active="request()->routeIs('projects.index')">
                 <i class="fas fa-project-diagram mr-3"></i>{{ __('Projects') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('links.index') }}" :active="request()->routeIs('links.index')">
                 <i class="fa-solid fa-link mr-3"></i>{{ __('Links')}}
+            </x-responsive-nav-link>
+            @endif
+            <x-responsive-nav-link href="{{ route('licenses.index') }}" :active="request()->routeIs('licenses.index')">
+                <i class="fa-solid fa-id-card mr-3"></i>{{ __('Licenses')}}
             </x-responsive-nav-link>
         </div>
 
