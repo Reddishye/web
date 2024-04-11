@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
 
 class ViewUsersCommand extends Command
 {
     protected $signature = 'user:all';
+
     protected $description = 'Display a list of users and their permissions';
 
     public function handle()
@@ -19,7 +20,7 @@ class ViewUsersCommand extends Command
                 $user->id,
                 $user->name,
                 $user->email,
-                is_array($user->permissions) ? implode(', ', $user->permissions) : $user->permissions
+                is_array($user->permissions) ? implode(', ', $user->permissions) : $user->permissions,
             ];
         })->toArray();
 
