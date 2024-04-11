@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Link;
+use Illuminate\Http\Request;
 
 class LinksManager extends Controller
 {
@@ -13,6 +13,7 @@ class LinksManager extends Controller
     public function index()
     {
         $links = Link::all();
+
         return view('admin.links.index', compact('links'));
     }
 
@@ -40,6 +41,7 @@ class LinksManager extends Controller
         ]);
 
         $link = Link::create($validatedData);
+
         return redirect()->route('links.index')->with('success', 'Link created successfully.');
     }
 
@@ -75,6 +77,7 @@ class LinksManager extends Controller
         ]);
 
         $link->update($validatedData);
+
         return redirect()->route('links.index')->with('success', 'Link updated successfully.');
     }
 
@@ -84,6 +87,7 @@ class LinksManager extends Controller
     public function destroy(Link $link)
     {
         $link->delete();
+
         return redirect()->route('links.index')->with('success', 'Link deleted successfully.');
     }
 }
