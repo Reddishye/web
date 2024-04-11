@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <form>
+                <form action="{{ route('users.store') }}" method="POST">
                     @csrf
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
@@ -24,16 +24,24 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2">Permissions:</label>
-                        <div x-data="{ permission: '', permissions: [] }">
-                            <input x-model="permission" @keydown.enter.prevent="permissions.push(permission); permission = ''" type="text" placeholder="Add a permission and press Enter" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <template x-for="(permission, index) in permissions" :key="index">
-                                <div class="mt-2 flex items-center">
-                                    <span class="bg-indigo-300 text-indigo-800 rounded-full px-4 py-1 mr-2" x-text="permission"></span>
-                                    <button @click.prevent="permissions.splice(index, 1)" class="text-white bg-red-500 hover:bg-red-700 rounded-full px-2">
-                                        &times;
-                                    </button>
-                                </div>
-                            </template>
+                        <div x-data="{ permission: '', permissions: [] }" class="flex flex-col space-y-2">
+                            <div class="flex space-x-2">
+                                <input x-model="permission" @keydown.enter.prevent="if(permission.trim() !== '') { permissions.push(permission.trim()); permission = ''; }" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Add a permission">
+                                <button @click.prevent="if(permission.trim() !== '') { permissions.push(permission.trim()); permission = ''; }" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                                    +
+                                </button>
+                            </div>
+                            <div class="flex flex-wrap">
+                                <template x-for="(permission, index) in permissions" :key="index">
+                                    <div class="flex items-center bg-indigo-300 text-indigo-800 rounded-full px-3 py-1 mr-2 mb-2">
+                                        <span x-text="permission"></span>
+                                        <button @click.prevent="permissions.splice(index, 1)" class="ml-2 text-indigo-800 hover:text-indigo-900">
+                                            &times;
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                            <input type="hidden" name="permissions" :value="JSON.stringify(permissions)">
                         </div>
                     </div>
                     <div class="flex items-center justify-end mt-4">
