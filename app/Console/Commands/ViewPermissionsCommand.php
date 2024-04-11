@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
 
 class ViewPermissionsCommand extends Command
 {
     protected $signature = 'permission:view';
+
     protected $description = 'View all permissions of a user';
 
     public function handle()
@@ -16,13 +17,15 @@ class ViewPermissionsCommand extends Command
 
         $user = User::find($userId);
 
-        if (!$user) {
+        if (! $user) {
             $this->error('User not found!');
+
             return;
         }
 
-        if (!$this->confirm('Are you sure you want to view permissions for user ' . $user->name . '?')) {
+        if (! $this->confirm('Are you sure you want to view permissions for user '.$user->name.'?')) {
             $this->info('Operation cancelled.');
+
             return;
         }
 
@@ -30,7 +33,7 @@ class ViewPermissionsCommand extends Command
         if (empty($permissions)) {
             $this->info('User has no permissions.');
         } else {
-            $this->info('User permissions: ' . implode(', ', $permissions));
+            $this->info('User permissions: '.implode(', ', $permissions));
         }
     }
 }
