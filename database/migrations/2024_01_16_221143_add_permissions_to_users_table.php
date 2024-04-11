@@ -16,12 +16,11 @@ return new class extends Migration
             $table->json('permissions')->nullable();
         });
     }
-    
+
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('permissions');
         });
     }
-
 };
