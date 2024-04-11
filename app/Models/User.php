@@ -27,6 +27,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'discord_id',
+        'discord_username',
+        'discord_displayname',
+        'discord_avatar_url',
+        'discord_token',
+        'discord_refresh_token',
     ];
 
     /**
@@ -61,6 +67,18 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'permissions' => 'array',
+            'discord_id' => 'string',
+            'discord_username' => 'string',
+            'discord_displayname' => 'string',
+            'discord_avatar_url' => 'string',
+            'discord_token' => 'string',
+            'discord_refresh_token' => 'string',
+            'credits' => 'integer',
         ];
+    }
+
+    public function licenses()
+    {
+        return $this->hasMany(License::class);
     }
 }
