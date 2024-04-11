@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
 use Faker\Factory as Faker;
+use Illuminate\Console\Command;
 
 class GenerateUsers extends Command
 {
     protected $signature = 'debug:genUsers';
+
     protected $description = 'Create users with random names.';
 
     public function __construct()

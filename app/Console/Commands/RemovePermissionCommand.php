@@ -2,12 +2,13 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
 
 class RemovePermissionCommand extends Command
 {
     protected $signature = 'permission:remove';
+
     protected $description = 'Remove a permission from a user';
 
     public function handle()
@@ -17,13 +18,15 @@ class RemovePermissionCommand extends Command
 
         $user = User::find($userId);
 
-        if (!$user) {
+        if (! $user) {
             $this->error('User not found!');
+
             return;
         }
 
-        if (!$this->confirm('Are you sure you want to remove this permission from user ' . $user->name . '?')) {
+        if (! $this->confirm('Are you sure you want to remove this permission from user '.$user->name.'?')) {
             $this->info('Operation cancelled.');
+
             return;
         }
 
