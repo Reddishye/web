@@ -21,4 +21,18 @@ class License extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function logEvent($event, $ip)
+    {
+        $this->logs()->create([
+            'event' => $event,
+            'ip_address' => $ip,
+            'timestamp' => now(),
+        ]);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(LicenseLog::class);
+    }
 }
