@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\License;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class LicenseController extends Controller
 {
+    private $onlineServers = [];
+
     public function index()
     {
         if (has_permission('admin')) {
@@ -56,7 +59,9 @@ class LicenseController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        return view('licenses.show', compact('license'));
+        $onlineServers = $this->getOnlineServersForLicense($license->id);
+
+        return view('licenses.show', compact('license', 'onlineServers'));
     }
 
     public function edit(License $license)
@@ -162,5 +167,19 @@ class LicenseController extends Controller
         }
 
         return $prefix . implode('-', $parts);
+    }
+
+    private function getOnlineServersForLicense($licenseId)
+    {
+        $cacheKey = 'online_servers_' . $licenseId;
+        $cacheDuration = 60;
+
+        return Cache::remember($cacheKey, $cacheDuration, function () use ($licenseId) {
+            if (isset($this->onlineServers[$licenseId])) {
+                return $this->onlineServers[$licenseId];
+            }
+
+            return [];
+        });
     }
 }

@@ -25,43 +25,45 @@ class DiscordController extends Controller
      */
     public function handleProviderCallback()
     {
-        $discordUser = Socialite::driver('discord')->user();
+        try {
+            $discordUser = Socialite::driver('discord')->user();
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Failed to authenticate with Discord.');
+        }
 
-        $user = User::where('discord_id', $discordUser->id)->first();
+        // Buscar usuario por discord_id o email
+        $user = User::where('discord_id', $discordUser->id)->orWhere('email', $discordUser->email)->first();
 
         if ($user) {
+            // Si el usuario existe, actualizar la información y loguear
             $user->update([
                 'discord_username' => $discordUser->nickname,
                 'discord_displayname' => $discordUser->name,
                 'discord_avatar_url' => $discordUser->avatar,
+                'discord_token' => $discordUser->token,
+                'discord_refresh_token' => $discordUser->refreshToken,
             ]);
 
-            Auth::guard('web')->login($user);
+            Auth::login($user);
 
-            return redirect('/user/profile');
+            return redirect('/dashboard');
         } else {
-            $user = Auth::user();
+            // Si el usuario no existe, crear uno nuevo
+            $user = User::create([
+                'name' => $discordUser->name,
+                'email' => $discordUser->email,
+                'discord_id' => $discordUser->id,
+                'discord_username' => $discordUser->nickname,
+                'discord_displayname' => $discordUser->name,
+                'discord_avatar_url' => $discordUser->avatar,
+                'discord_token' => $discordUser->token,
+                'discord_refresh_token' => $discordUser->refreshToken,
+                'password' => bcrypt(str_random(16)), // Generar una contraseña aleatoria
+            ]);
 
-            if ($user) {
-                $user->update([
-                    'discord_id' => $discordUser->id,
-                    'discord_username' => $discordUser->name,
-                    'discord_displayname' => $discordUser->name,
-                    'discord_avatar_url' => $discordUser->avatar,
-                ]);
+            Auth::login($user);
 
-                return redirect('/user/profile')->with('success', 'Discord account linked successfully.');
-            } else {
-                session([
-                    'discord_id' => $discordUser->id,
-                    'discord_username' => $discordUser->nickname,
-                    'discord_displayname' => $discordUser->name,
-                    'discord_avatar_url' => $discordUser->avatar,
-                    'discord_email' => $discordUser->email,
-                ]);
-
-                return redirect()->route('login')->with('info', 'Please log in to link your Discord account.');
-            }
+            return redirect('/dashboard');
         }
     }
 }

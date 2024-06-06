@@ -37,7 +37,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/auth/discord', [App\Http\Controllers\DiscordController::class, 'redirectToProvider'])->name('auth.discord');
-    Route::get('/auth/discord/callback', [App\Http\Controllers\DiscordController::class, 'handleProviderCallback']);
     Route::resource('licenses', LicenseController::class);
 });
+
+Route::get('/auth/discord', [App\Http\Controllers\DiscordController::class, 'redirectToProvider'])->name('auth.discord');
+Route::get('/auth/discord/callback', [App\Http\Controllers\DiscordController::class, 'handleProviderCallback']);

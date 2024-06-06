@@ -31,6 +31,10 @@ class License extends Model
         ]);
     }
 
+    public function isLocked() {
+        return $this->locked;
+    }
+
     public function logs()
     {
         return $this->hasMany(LicenseLog::class);

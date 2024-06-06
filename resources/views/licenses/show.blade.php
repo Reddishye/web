@@ -36,6 +36,40 @@
                         </tbody>
                     </table>
 
+                    <h3 class="text-lg font-medium mt-8 mb-4">{{ __('Online Servers') }}</h3>
+
+                    @if (count($onlineServers) > 0)
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Server Name') }}</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('IP Address') }}</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Last Seen') }}</th>
+                                    <th class="px-6 py-3 bg-gray-50"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($onlineServers as $server)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $server['name'] }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $server['ip'] }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $server['last_seen'] }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <form action="{{ route('licenses.stop-server', $license->id) }}" method="POST" onsubmit="return confirm('{{ __('Are you sure you want to stop this server?') }}')">
+                                                @csrf
+                                                <x-danger-button type="submit">
+                                                    {{ __('Stop Server') }}
+                                                </x-danger-button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @else
+                        <p>{{ __('No online servers found for this license.') }}</p>
+                    @endif
+
                     <h3 class="text-lg font-medium mt-8 mb-4">{{ __('License Log') }}</h3>
 
                     <table class="min-w-full divide-y divide-gray-200">
