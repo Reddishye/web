@@ -43,7 +43,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="color" class="block text-gray-700 text-sm font-bold mb-2">Color</label>
-                            <input type="color" name="color" id="color" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('color') border-red-500 @enderror" value="{{ old('color', $link->color) }}" required autofocus>
+                            <input type="color" name="color" id="color" class="shadow appearance-none border rounded w-full py-2 h-8 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('color') border-red-500 @enderror" value="{{ old('color', $link->color) }}" required autofocus>
                             @error('color')
                                 <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                             @enderror
