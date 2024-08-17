@@ -7,124 +7,150 @@ use Illuminate\Http\Request;
 
 class LinksViewer extends Controller
 {
-    /**
-     * Redirect to a specific link based on the path.
-     */
-    public function redirect(Request $request, $path = null)
+    public function show(Request $request, $path = null)
     {
-        if ($request->has('category')) {
-            $category = strtolower($request->input('category'));
-
-            return redirect()->route('links.redirect', ['path' => $category]);
-        }
-
         if ($path === null) {
-            $links = Link::where('path', 'not like', '%/%')->get();
-
-            $categories = Link::select('path')
-                ->where('path', 'like', '%/%')
-                ->get()
-                ->map(function ($link) {
-                    $categoryPath = substr($link->path, 0, strpos($link->path, '/'));
-
-                    return [
-                        'path' => $categoryPath,
-                        'url' => route('links.redirect', ['path' => $categoryPath]),
-                    ];
-                })
-                ->unique('path')
-                ->values();
-
-            $categoryLinks = $categories->map(function ($category) {
-                $link = new Link();
-                $link->name = ucfirst($category['path']);
-                $link->path = $category['path'];
-                $link->link = $category['url'];
-                $link->fa_icon = 'fas fa-folder';
-                $link->color = '#6c757d';
-
-                return $link;
-            });
-
-            $links = $links->merge($categoryLinks);
-
-            return view('links', compact('links'));
+            return $this->showRootLinks();
         }
 
-        $lowercasePath = strtolower($path);
-        $link = Link::where('path', $lowercasePath)->first();
+        $link = Link::where('path', $path)->first();
 
         if ($link) {
-            return redirect()->away($link->link);
+            return $this->handleLinkRedirect($link);
         }
 
-        $links = Link::where('path', 'like', $lowercasePath.'/%')->get();
-
-        if ($links->isNotEmpty()) {
-            $mostCommonCase = $this->getMostCommonCase($links, $path);
-
-            $categories = $links->map(function ($link) use ($lowercasePath, $mostCommonCase) {
-                $categoryPath = substr($link->path, strlen($lowercasePath) + 1);
-                $categoryParts = explode('/', $categoryPath);
-
-                $category = [
-                    'path' => $categoryParts[0],
-                    'url' => route('links.redirect', ['path' => $lowercasePath.'/'.$categoryParts[0]]),
-                    'case' => $mostCommonCase,
-                ];
-
-                if (count($categoryParts) > 1) {
-                    $category['subcategories'] = array_slice($categoryParts, 1);
-                }
-
-                return $category;
-            })->filter()->values();
-
-            $categoryLinks = $categories->map(function ($category) {
-                $link = new Link();
-                $link->name = ucfirst($category['path']);
-                $link->path = $category['path'];
-                $link->link = $category['url'];
-                $link->fa_icon = 'fas fa-folder';
-                $link->color = '#6c757d';
-
-                return $link;
-            });
-
-            $links = $links->merge($categoryLinks);
-
-            $parentCategory = null;
-            if (strpos($lowercasePath, '/') !== false) {
-                $parentCategory = [
-                    'path' => substr($lowercasePath, 0, strrpos($lowercasePath, '/')),
-                    'url' => route('links.redirect', ['path' => substr($lowercasePath, 0, strrpos($lowercasePath, '/'))]),
-                ];
-            }
-
-            $category = $mostCommonCase;
-
-            return view('links', compact('links', 'parentCategory', 'category'));
-        }
-
-        abort(404);
+        return $this->showCategoryLinks($path);
     }
 
-    private function getMostCommonCase($links, $path)
+    private function showRootLinks()
     {
-        $pathCounts = [];
+        $rootLinks = Link::where('path', 'not like', '%/%')->get();
+        $categories = Link::where('path', 'like', '%/%')
+            ->get()
+            ->map(function ($link) {
+                return explode('/', $link->path)[0];
+            })
+            ->unique()
+            ->values();
 
-        foreach ($links as $link) {
-            $lastSlash = basename(dirname($link->path));
-            if (strtolower($lastSlash) === strtolower($path)) {
-                if (! isset($pathCounts[$lastSlash])) {
-                    $pathCounts[$lastSlash] = 0;
-                }
-                $pathCounts[$lastSlash]++;
-            }
+        $categoryLinks = $this->createCategoryLinks($categories);
+        $allLinks = $rootLinks->merge($categoryLinks);
+
+        return view('links', [
+            'links' => $allLinks,
+            'currentPath' => null,
+            'previousPath' => null
+        ]);
+    }
+
+    private function showCategoryLinks($path)
+    {
+        $links = Link::where('path', 'like', $path . '/%')->get();
+
+        if ($links->isEmpty()) {
+            abort(404);
         }
 
-        arsort($pathCounts);
+        $currentLinks = $links->filter(function ($link) use ($path) {
+            return substr_count($link->path, '/') === substr_count($path, '/') + 1;
+        });
 
-        return key($pathCounts);
+        $subCategories = $links->filter(function ($link) use ($path) {
+            return substr_count($link->path, '/') > substr_count($path, '/') + 1;
+        })->map(function ($link) use ($path) {
+            $subPath = substr($link->path, strlen($path) + 1);
+            $nextCategory = explode('/', $subPath)[0];
+            return $path . '/' . $nextCategory;
+        })->unique()->values();
+
+        $categoryLinks = $this->createCategoryLinks($subCategories);
+        $allLinks = $currentLinks->merge($categoryLinks);
+
+        $previousPath = $this->getPreviousPath($path);
+
+        return view('links', [
+            'links' => $allLinks,
+            'currentPath' => $path,
+            'previousPath' => $previousPath
+        ]);
+    }
+
+    private function createCategoryLinks($categories)
+    {
+        return $categories->map(function ($category) {
+            return new Link([
+                'name' => ucfirst(basename($category)),
+                'path' => $category,
+                'link' => route('links.user', ['path' => $category]),
+                'fa_icon' => 'fas fa-folder',
+                'color' => '#6c757d',
+            ]);
+        });
+    }
+
+    private function getParentCategory($path)
+    {
+        $pathParts = explode('/', $path);
+        if (count($pathParts) > 1) {
+            array_pop($pathParts);
+            $parentPath = implode('/', $pathParts);
+            return [
+                'name' => ucfirst(end($pathParts)),
+                'path' => $parentPath,
+                'url' => route('links.user', ['path' => $parentPath]),
+            ];
+        }
+        return null;
+    }
+
+    private function getPreviousPath($path)
+    {
+        $pathParts = explode('/', $path);
+        if (count($pathParts) > 1) {
+            array_pop($pathParts);
+            return implode('/', $pathParts) ?: '/';
+        }
+        return '/';
+    }
+
+    private function handleLinkRedirect(Link $link)
+    {
+        $linkType = $this->getLinkType($link->link);
+        $linkContent = $this->getLinkContent($link->link);
+
+        switch ($linkType) {
+            case 'copy':
+                return view('copy-link', ['textToCopy' => $linkContent]);
+            case 'newwindow':
+                return redirect()->away($linkContent);
+            case 'route':
+                return redirect()->route($linkContent);
+            case 'onlyview':
+                return back()->with('message', 'Este enlace es solo para visualización.');
+            default:
+                return redirect()->away($link->link);
+        }
+    }
+
+    private function getLinkType($link)
+    {
+        $types = ['copy:', 'newwindow:', 'route:', 'onlyview'];
+        foreach ($types as $type) {
+            if (strpos($link, $type) === 0) {
+                return rtrim($type, ':');
+            }
+        }
+        return 'default';
+    }
+
+    private function getLinkContent($link)
+    {
+        $types = ['copy:', 'newwindow:', 'route:'];
+        foreach ($types as $type) {
+            if (strpos($link, $type) === 0) {
+                return substr($link, strlen($type));
+            }
+        }
+        return $link;
     }
 }
