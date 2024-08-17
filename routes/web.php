@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 
 Route::get('/', [UserViewController::class, 'index'])->name('home');
-Route::get('/links/{path?}', [LinksViewer::class, 'redirect'])->where('path', '.*')->name('links.redirect');
+Route::get('/links/{path?}', [LinksViewer::class, 'show'])->name('links.user')->where('path', '.*');
 
 Route::prefix('admin')->middleware([
     'auth:sanctum',
@@ -62,3 +62,10 @@ Route::get('/auth/discord/callback', [App\Http\Controllers\DiscordController::cl
 
 
 Route::get('/api/checklicense/{licenseKey}', [App\Http\Controllers\Api\LicenseController::class, 'checkLicense']);
+
+// TEST ROUTE, ONLY WORKS IN DEBUG OR LOCAL ENVIRONMENTS
+if (app()->environment('local') || config('app.debug')) {
+    Route::get('/test', function () {
+        return view('testview');
+    });
+}
