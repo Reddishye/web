@@ -3,6 +3,8 @@ import '@fortawesome/fontawesome-free/js/all';
 import ScrollReveal from 'scrollreveal';
 import 'animate.css';
 
+import { createPopper } from '@popperjs/core';
+
 document.addEventListener('DOMContentLoaded', function () {
     ScrollReveal().reveal('.aos-init', {
       duration: 600,

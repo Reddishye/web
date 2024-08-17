@@ -44,11 +44,17 @@
                 </x-button>
             </div>
         </form>
-
-        <div class="flex items-center justify-center mt-4">
-            <a href="{{ route('auth.discord') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                <i class="fab fa-discord mr-2"></i> {{ __('Discord') }}
-            </a>
+        <div class="flex space-x-4 justify-center">
+            <div class="flex items-center justify-center mt-4">
+                <a href="{{ route('auth.discord') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+                    <i class="fab fa-discord mr-2"></i> {{ __('Discord') }}
+                </a>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+                    <i class="fas fa-user mr-2"></i> {{ __('Register') }}
+                </a>
+            </div>
         </div>
     </x-authentication-card>
 </x-guest-layout>

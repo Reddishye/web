@@ -37,5 +37,9 @@
                 console.error('Could not copy text: ', err);
             });
         }</script>
+
+
+<script async defer src="https://api.redactado.es/latest.js"></script>
+<noscript><img src="https://api.redactado.es/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
     </body>
 </html>

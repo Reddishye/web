@@ -7,5 +7,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/checklicense/{licenseKey}', [App\Http\Controllers\Api\LicenseController::class, 'checkLicense']);
 Route::post('/updateServerStatus/{licenseKey}', [App\Http\Controllers\Api\LicenseController::class, 'updateServerStatus']);

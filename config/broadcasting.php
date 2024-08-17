@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_CONNECTION', 'null'),
+    'default' => env('BROADCAST_CONNECTION', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -62,6 +62,11 @@ return [
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
+        ],
+
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
         ],
 
         'ably' => [

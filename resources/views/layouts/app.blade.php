@@ -22,6 +22,7 @@
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
+            @include('flash::message')
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -43,5 +44,8 @@
 
         @livewireScripts
         @filamentScripts
+
+        <script async defer src="https://api.redactado.es/latest.js"></script>
+<noscript><img src="https://api.redactado.es/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
     </body>
 </html>
